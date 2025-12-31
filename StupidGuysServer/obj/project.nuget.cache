@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BS8fEnCKOmo=",
+  "dgSpecHash": "wayjL44lJSU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Desktop\\Team2\\Server\\StupidGuysServer\\StupidGuysServer\\StupidGuysServer.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\StupidGuysServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",

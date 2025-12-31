@@ -7,6 +7,9 @@
 
         public int Id { get; }
         public int MaxPlayers { get; }
+        public string? GameServerIP { get; set; }
+        public int GameServerPort { get; set; }
+        public bool IsGameServerAllocated { get; set; }
 
         public Lobby(int id, int maxPlayers)
         {
