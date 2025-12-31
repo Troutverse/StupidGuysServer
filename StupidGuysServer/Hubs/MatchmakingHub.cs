@@ -37,7 +37,49 @@ public class MatchmakingHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    public async Task<MatchmakingResult> FindOrCreateLobby(int maxPlayers)
+    //public async Task<MatchmakingResult> FindOrCreateLobby(int maxPlayers)
+    //{
+    //    string connectionId = Context.ConnectionId;
+    //    Console.WriteLine($"[SignalR] {connectionId} requested FindOrCreateLobby (maxPlayers: {maxPlayers})");
+
+    //    var lobby = _lobbiesManager.FindAvailableLobby();
+
+    //    if (lobby == null)
+    //    {
+    //        lobby = _lobbiesManager.CreateLobby(maxPlayers);
+    //        Console.WriteLine($"[SignalR] Created new lobby {lobby.Id}");
+    //        //lobby.GameServerIP = "92c613f02fc3.pr.edgegap.net";
+    //        //lobby.GameServerPort = 31145;  
+
+    //        lobby.GameServerIP = "127.0.0.1";
+    //        lobby.GameServerPort = 7777;
+    //        lobby.IsGameServerAllocated = true;
+    //        Console.WriteLine($"[SignalR] Allocated game server: {lobby.GameServerIP}:{lobby.GameServerPort}");
+    //    }
+
+    //    if (lobby.TryAddMember(connectionId, out int remainMemberCount))
+    //    {
+    //        await Groups.AddToGroupAsync(connectionId, GetLobbyGroupName(lobby.Id));
+
+    //        Console.WriteLine($"[SignalR] {connectionId} joined lobby {lobby.Id} ({lobby.MemberCount}/{maxPlayers})");
+
+    //        await NotifyLobbyUpdated(lobby);
+
+    //        return new MatchmakingResult
+    //        {
+    //            LobbyId = lobby.Id,
+    //            GameServerIP = lobby.GameServerIP,
+    //            GameServerPort = lobby.GameServerPort,
+    //            Success = true
+    //        };
+    //    }
+    //    else
+    //    {
+    //        Console.WriteLine($"[SignalR] Failed to add {connectionId} to lobby {lobby.Id}");
+    //        throw new HubException("Failed to join lobby");
+    //    }
+    //}
+    public async Task<int> FindOrCreateLobby(int maxPlayers)
     {
         string connectionId = Context.ConnectionId;
         Console.WriteLine($"[SignalR] {connectionId} requested FindOrCreateLobby (maxPlayers: {maxPlayers})");
@@ -48,30 +90,17 @@ public class MatchmakingHub : Hub
         {
             lobby = _lobbiesManager.CreateLobby(maxPlayers);
             Console.WriteLine($"[SignalR] Created new lobby {lobby.Id}");
-            //lobby.GameServerIP = "92c613f02fc3.pr.edgegap.net";
-            //lobby.GameServerPort = 31145;  
-
-            lobby.GameServerIP = "127.0.0.1";
-            lobby.GameServerPort = 7777;
-            lobby.IsGameServerAllocated = true;
-            Console.WriteLine($"[SignalR] Allocated game server: {lobby.GameServerIP}:{lobby.GameServerPort}");
         }
 
         if (lobby.TryAddMember(connectionId, out int remainMemberCount))
         {
             await Groups.AddToGroupAsync(connectionId, GetLobbyGroupName(lobby.Id));
-
             Console.WriteLine($"[SignalR] {connectionId} joined lobby {lobby.Id} ({lobby.MemberCount}/{maxPlayers})");
 
-            await NotifyLobbyUpdated(lobby);
+            // NotifyLobbyUpdated를 기다리지 않고 비동기로 실행
+            _ = NotifyLobbyUpdated(lobby);
 
-            return new MatchmakingResult
-            {
-                LobbyId = lobby.Id,
-                GameServerIP = lobby.GameServerIP,
-                GameServerPort = lobby.GameServerPort,
-                Success = true
-            };
+            return lobby.Id;  // 즉시 반환
         }
         else
         {
