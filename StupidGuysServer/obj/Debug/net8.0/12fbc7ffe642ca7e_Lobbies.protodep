@@ -1,0 +1,4 @@
+obj\Debug\net8.0\Protos/Lobbies.cs \
+obj\Debug\net8.0\Protos/LobbiesGrpc.cs: C:/Users/박근우/.nuget/packages/grpc.tools/2.76.0/build/native/include/google/protobuf/empty.proto\
+ C:/Users/박근우/.nuget/packages/grpc.tools/2.76.0/build/native/include/google/protobuf/timestamp.proto\
+ Protos/Lobbies.proto
