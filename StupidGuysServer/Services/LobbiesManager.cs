@@ -51,9 +51,9 @@ namespace StupidGuysServer.Services
         {
             foreach (var lobby in _lobbies.Values)
             {
-                if (lobby.RemoveMember(connectionId, out int remainCount))
+                if (lobby.RemoveMember(connectionId))
                 {
-                    if (remainCount == 0)
+                    if (lobby.MemberCount == 0)
                     {
                         _lobbies.TryRemove(lobby.Id, out _);
                     }
