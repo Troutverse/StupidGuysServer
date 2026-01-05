@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "RelativeToolTip": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAIwG0AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAIwBEAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-29T05:11:08.922Z",
               "EditorCaption": ""
@@ -49,9 +49,10 @@
               "RelativeDocumentMoniker": "StupidGuysServer\\Models\\Lobby.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Models\\Lobby.cs",
               "RelativeToolTip": "StupidGuysServer\\Models\\Lobby.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAIwEMAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T05:10:45.133Z"
+              "WhenOpened": "2025-12-29T05:10:45.133Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -61,9 +62,10 @@
               "RelativeDocumentMoniker": "StupidGuysServer\\Services\\LobbiesManager.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Services\\LobbiesManager.cs",
               "RelativeToolTip": "StupidGuysServer\\Services\\LobbiesManager.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwDQAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T05:10:41.292Z"
+              "WhenOpened": "2025-12-29T05:10:41.292Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -73,7 +75,7 @@
               "RelativeDocumentMoniker": "StupidGuysServer\\Program.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Program.cs",
               "RelativeToolTip": "StupidGuysServer\\Program.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAYAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAUwAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-26T04:30:12.585Z",
               "EditorCaption": ""

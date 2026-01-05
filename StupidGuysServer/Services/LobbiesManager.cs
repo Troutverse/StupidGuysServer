@@ -1,5 +1,6 @@
 ﻿using StupidGuysServer.Models;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StupidGuysServer.Services
@@ -11,7 +12,7 @@ namespace StupidGuysServer.Services
         private readonly object _idLock = new object();
 
 
-        public Lobby? FindAvailableLobby()
+        public Lobby? FindLobby()
         {
             return _lobbies.Values.FirstOrDefault(lobby => !lobby.IsFull);
         }
@@ -30,6 +31,16 @@ namespace StupidGuysServer.Services
             return lobby;
         }
 
+        public bool RemoveLobby(int lobbyId)
+        {
+            var lobby = GetLobby(lobbyId);
+            if (lobby != null)
+            {
+                return _lobbies.TryRemove(lobbyId, out lobby);
+            }
+            return false;
+        }
+
         public Lobby? GetLobby(int lobbyId)
         {
             _lobbies.TryGetValue(lobbyId, out var lobby);
@@ -40,7 +51,7 @@ namespace StupidGuysServer.Services
         {
             foreach (var lobby in _lobbies.Values)
             {
-                if (lobby.TryRemoveMember(connectionId, out int remainCount))
+                if (lobby.RemoveMember(connectionId, out int remainCount))
                 {
                     if (remainCount == 0)
                     {

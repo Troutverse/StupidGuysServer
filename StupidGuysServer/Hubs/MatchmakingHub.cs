@@ -16,23 +16,18 @@ public class MatchmakingHub : Hub
     public override async Task OnConnectedAsync()
     {
         string connectionId = Context.ConnectionId;
-        Console.WriteLine($"[SignalR] Client connected: {connectionId}");
+        Console.WriteLine($"Client connected: {connectionId}");
         await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         string connectionId = Context.ConnectionId;
-        Console.WriteLine($"[SignalR] Client disconnected: {connectionId}");
+        Console.WriteLine($"Client disconnected: {connectionId}");
 
         var lobby = _lobbiesManager.RemovePlayerFromAllLobbies(connectionId);
 
-        if (lobby != null)
-        {
-            Console.WriteLine($"[SignalR] Removed {connectionId} from lobby {lobby.Id}");
-
-            await NotifyLobbyUpdated(lobby);
-        }
+        if (lobby != null) await NotifyLobbyUpdated(lobby);
 
         await base.OnDisconnectedAsync(exception);
     }
@@ -40,28 +35,27 @@ public class MatchmakingHub : Hub
     public async Task<MatchmakingResult> FindOrCreateLobby(int maxPlayers)
     {
         string connectionId = Context.ConnectionId;
-        Console.WriteLine($"[SignalR] {connectionId} requested FindOrCreateLobby (maxPlayers: {maxPlayers})");
 
-        var lobby = _lobbiesManager.FindAvailableLobby();
+        var lobby = _lobbiesManager.FindLobby();
 
         if (lobby == null)
         {
             lobby = _lobbiesManager.CreateLobby(maxPlayers);
-            Console.WriteLine($"[SignalR] Created new lobby {lobby.Id}");
+            Console.WriteLine($"Created new lobby {lobby.Id}");
             //lobby.GameServerIP = "92c613f02fc3.pr.edgegap.net";
             //lobby.GameServerPort = 31145;  
 
             lobby.GameServerIP = "127.0.0.1";
             lobby.GameServerPort = 7777;
             lobby.IsGameServerAllocated = true;
-            Console.WriteLine($"[SignalR] Allocated game server: {lobby.GameServerIP}:{lobby.GameServerPort}");
+            Console.WriteLine($"Allocated game server: {lobby.GameServerIP}:{lobby.GameServerPort}");
         }
 
-        if (lobby.TryAddMember(connectionId, out int remainMemberCount))
+        if (lobby.AddMember(connectionId, out int remainMemberCount))
         {
-            await Groups.AddToGroupAsync(connectionId, GetLobbyGroupName(lobby.Id));
+            await Groups.AddToGroupAsync(connectionId, $"lobby_{lobby.Id}");
 
-            Console.WriteLine($"[SignalR] {connectionId} joined lobby {lobby.Id} ({lobby.MemberCount}/{maxPlayers})");
+            Console.WriteLine($"{connectionId} joined lobby {lobby.Id} ({lobby.MemberCount}/{maxPlayers})");
 
             await NotifyLobbyUpdated(lobby);
 
@@ -75,8 +69,39 @@ public class MatchmakingHub : Hub
         }
         else
         {
-            Console.WriteLine($"[SignalR] Failed to add {connectionId} to lobby {lobby.Id}");
             throw new HubException("Failed to join lobby");
+        }
+    }
+
+    public async Task<bool> LeaveLobby(int lobbyId)
+    {
+        string connectionId = Context.ConnectionId;
+        var lobby = _lobbiesManager.GetLobby(lobbyId);
+        
+        bool removed = lobby.RemoveMember(connectionId);
+
+        if (removed)
+        {
+            await Groups.RemoveFromGroupAsync(connectionId, $"lobby_{lobby.Id}");
+
+            Console.WriteLine($"[SignalR] {connectionId} left lobby {lobbyId}. Remaining: {lobby.MemberCount}/{lobby.MaxPlayers}");
+
+            if (lobby.MemberCount == 0)
+            {
+                _lobbiesManager.RemoveLobby(lobbyId);
+                Console.WriteLine($"[SignalR] Lobby {lobbyId} is empty and has been removed");
+            }
+            else
+            {
+                await NotifyLobbyUpdated(lobby);
+            }
+
+            return true;
+        }
+        else
+        {
+            Console.WriteLine($"[SignalR] Failed to remove {connectionId} from lobby {lobbyId}");
+            return false;
         }
     }
 
@@ -108,15 +133,8 @@ public class MatchmakingHub : Hub
             IsFull = lobby.IsFull
         };
 
-        await Clients.Group(GetLobbyGroupName(lobby.Id))
+        await Clients.Group($"lobby_{lobby.Id}")
         .SendAsync("LobbyUpdated", status);
-
-        Console.WriteLine($"[SignalR] Notified lobby {lobby.Id} update: {status.CurrentPlayers}/{status.MaxPlayers}");
-    }
-
-    private string GetLobbyGroupName(int lobbyId)
-    {
-        return $"lobby_{lobbyId}";
     }
 }
 

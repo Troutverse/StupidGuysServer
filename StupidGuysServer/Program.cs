@@ -29,7 +29,5 @@ var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
 var url = $"http://0.0.0.0:{port}";
 
 Console.WriteLine($"SignalR Server starting at {url}/matchmaking");
-Console.WriteLine($"CORS: AllowAll enabled");
-Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 
 app.Run(url);

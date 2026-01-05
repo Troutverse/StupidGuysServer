@@ -39,7 +39,7 @@
             }
         }
 
-        public bool TryAddMember(string connectionId, out int remainMemberCount)
+        public bool AddMember(string connectionId, out int remainMemberCount)
         {
             lock (_gate)
             {
@@ -55,12 +55,11 @@
             }
         }
 
-        public bool TryRemoveMember(string connectionId, out int remainMemberCount)
+        public bool RemoveMember(string connectionId)
         {
             lock (_gate)
             {
                 bool removed = _members.Remove(connectionId);
-                remainMemberCount = _members.Count;
                 return removed;
             }
         }
