@@ -21,7 +21,7 @@ namespace StupidGuysServer.Services
             _appName = config["EdgeGap:AppName"] ?? throw new ArgumentNullException("EdgeGap:AppName not configured");
             _versionName = config["EdgeGap:VersionName"] ?? throw new ArgumentNullException("EdgeGap:VersionName not configured");
             
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {_apiToken}");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", _apiToken);
         }
 
         public async Task<DeploymentResponse> CreateDeployment(string[] playerIPs)
