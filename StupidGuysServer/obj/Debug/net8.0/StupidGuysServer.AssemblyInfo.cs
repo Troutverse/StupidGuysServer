@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StupidGuysServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b6cd46b0e4252aee72a8155c321d64669f9d074")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfddf86ed090b97fa9185758e58411590dae5f8c")]
 [assembly: System.Reflection.AssemblyProductAttribute("StupidGuysServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StupidGuysServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

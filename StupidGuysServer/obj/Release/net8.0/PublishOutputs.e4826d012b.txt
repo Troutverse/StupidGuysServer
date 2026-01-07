@@ -1,0 +1,11 @@
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\StupidGuysServer.exe
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\publish\web.config
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\publish\StupidGuysServer.deps.json
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\publish\StupidGuysServer.runtimeconfig.json
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\publish\StupidGuysServer.staticwebassets.endpoints.json
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\StupidGuysServer.dll
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\StupidGuysServer.deps.json
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\StupidGuysServer.runtimeconfig.json
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\StupidGuysServer.pdb
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\StupidGuysServer\StupidGuysServer\publish\System.Net.WebSockets.WebSocketProtocol.dll

@@ -74,16 +74,36 @@ public class MatchmakingHub : Hub
                 var deployment = await _edgeGapService.CreateDeployment(playerIPs);
 
                 lobby.EdgeGapRequestId = deployment.request_id;
-                lobby.GameServerIP = deployment.public_ip;
-                
-                // ports 배열에서 첫 번째 포트 사용
-                if (deployment.ports != null && deployment.ports.Length > 0)
+                Console.WriteLine($"[EdgeGap] Deployment created: {deployment.request_id}");
+                Console.WriteLine($"[EdgeGap] Waiting for server to be ready...");
+
+                // Status 체크 (최대 30초 대기)
+                int maxRetries = 15;
+                int retryCount = 0;
+                bool isReady = false;
+
+                while (retryCount < maxRetries && !isReady)
                 {
-                    lobby.GameServerPort = deployment.ports[0].external;
+                    await Task.Delay(2000); // 2초 대기
+
+                    var status = await _edgeGapService.GetDeploymentStatus(deployment.request_id);
+
+                    Console.WriteLine($"[EdgeGap] Status: {status.current_status} (Attempt {retryCount + 1}/{maxRetries})");
+
+                    if (status.ready && status.ports != null && status.ports.Length > 0)
+                    {
+                        lobby.GameServerIP = status.public_ip ?? deployment.public_ip;
+                        lobby.GameServerPort = status.ports[0].external;
+                        isReady = true;
+                        break;
+                    }
+
+                    retryCount++;
                 }
-                else
+
+                if (!isReady)
                 {
-                    throw new Exception("No ports returned from EdgeGap");
+                    throw new Exception("Server deployment timeout - not ready after 30 seconds");
                 }
 
                 lobby.IsGameServerAllocated = true;
