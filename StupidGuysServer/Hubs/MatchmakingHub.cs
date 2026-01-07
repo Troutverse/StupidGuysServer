@@ -90,6 +90,7 @@ public class MatchmakingHub : Hub
                     var status = await _edgeGapService.GetDeploymentStatus(deployment.request_id);
                     
                     Console.WriteLine($"[EdgeGap] Status: {status.current_status} (Attempt {retryCount + 1}/{maxRetries})");
+                    Console.WriteLine($"[EdgeGap] DEBUG - ready: {status.ready}, ports: {status.ports?.Count ?? 0}, public_ip: {status.public_ip}");
                     
                     if (status.ready && status.ports != null && status.ports.Count > 0)
                     {
