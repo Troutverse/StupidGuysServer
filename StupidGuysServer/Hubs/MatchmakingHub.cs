@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using StupidGuysServer.Models;
 using StupidGuysServer.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class MatchmakingHub : Hub
@@ -85,19 +86,23 @@ public class MatchmakingHub : Hub
                 while (retryCount < maxRetries && !isReady)
                 {
                     await Task.Delay(2000); // 2초 대기
-
+                    
                     var status = await _edgeGapService.GetDeploymentStatus(deployment.request_id);
-
+                    
                     Console.WriteLine($"[EdgeGap] Status: {status.current_status} (Attempt {retryCount + 1}/{maxRetries})");
-
-                    if (status.ready && status.ports != null && status.ports.Length > 0)
+                    
+                    if (status.ready && status.ports != null && status.ports.Count > 0)
                     {
                         lobby.GameServerIP = status.public_ip ?? deployment.public_ip;
-                        lobby.GameServerPort = status.ports[0].external;
+                        
+                        // Dictionary의 첫 번째 포트 가져오기
+                        var firstPort = status.ports.Values.First();
+                        lobby.GameServerPort = firstPort.external;
+                        
                         isReady = true;
                         break;
                     }
-
+                    
                     retryCount++;
                 }
 
@@ -105,7 +110,7 @@ public class MatchmakingHub : Hub
                 {
                     throw new Exception("Server deployment timeout - not ready after 30 seconds");
                 }
-
+                
                 lobby.IsGameServerAllocated = true;
 
                 Console.WriteLine($"[EdgeGap] ✅ Server allocated successfully!");
