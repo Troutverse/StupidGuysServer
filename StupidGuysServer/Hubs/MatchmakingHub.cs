@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using StupidGuysServer.Models;
 using StupidGuysServer.Services;
 using System;
@@ -68,14 +68,14 @@ public class MatchmakingHub : Hub
             {
                 Console.WriteLine($"[EdgeGap] Requesting server allocation...");
 
-                // TODO: 실제 플레이어 IP 수집 (현재는 임시값)
-                var playerIPs = new[] { "0.0.0.0" };
+                // 빈 IP 리스트 - EdgeGap이 자동으로 최적 위치 선택
+                var playerIPs = new string[] { };
 
                 var deployment = await _edgeGapService.CreateDeployment(playerIPs);
 
                 lobby.EdgeGapRequestId = deployment.request_id;
                 lobby.GameServerIP = deployment.public_ip;
-
+                
                 // ports 배열에서 첫 번째 포트 사용
                 if (deployment.ports != null && deployment.ports.Length > 0)
                 {
