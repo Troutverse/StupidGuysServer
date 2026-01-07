@@ -79,7 +79,7 @@ public class MatchmakingHub : Hub
                 Console.WriteLine($"[EdgeGap] Waiting for server to be ready...");
 
                 // Status 체크 (최대 30초 대기)
-                int maxRetries = 15;
+                int maxRetries = 30;
                 int retryCount = 0;
                 bool isReady = false;
 
