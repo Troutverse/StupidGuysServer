@@ -38,6 +38,11 @@ namespace StupidGuysServer.Services
             };
 
             Console.WriteLine($"[EdgeGap] Creating deployment for app: {_appName}, version: {_versionName}");
+            
+            // DEBUG: 실제 전송되는 Authorization 헤더 확인
+            var authHeader = _httpClient.DefaultRequestHeaders.GetValues("Authorization").FirstOrDefault();
+            Console.WriteLine($"[EdgeGap] DEBUG - Authorization header: {authHeader}");
+            Console.WriteLine($"[EdgeGap] DEBUG - Request body: {System.Text.Json.JsonSerializer.Serialize(request)}");
 
             var response = await _httpClient.PostAsJsonAsync("deploy", request);
             
