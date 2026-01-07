@@ -55,8 +55,7 @@
               "RelativeToolTip": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "ViewState": "AgIAADMAAAAAAAAAAAAwwOQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T05:11:08.922Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T05:11:08.922Z"
             },
             {
               "$type": "Document",
@@ -68,8 +67,7 @@
               "RelativeToolTip": "StupidGuysServer\\Models\\Lobby.cs",
               "ViewState": "AgIAACcAAAAAAAAAAADwv0UAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T05:10:45.133Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T05:10:45.133Z"
             },
             {
               "$type": "Document",
@@ -81,8 +79,7 @@
               "RelativeToolTip": "StupidGuysServer\\Services\\LobbiesManager.cs",
               "ViewState": "AgIAACQAAAAAAAAAAADwvzcAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T05:10:41.292Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-29T05:10:41.292Z"
             },
             {
               "$type": "Document",
@@ -94,8 +91,7 @@
               "RelativeToolTip": "StupidGuysServer\\Program.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAUwCIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T04:30:12.585Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-26T04:30:12.585Z"
             }
           ]
         }

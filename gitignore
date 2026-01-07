@@ -43,8 +43,8 @@ $RECYCLE.BIN/
 .vscode/
 
 # Configuration files with sensitive data
-appsettings.json
-appsettings.*.json
+StupidGuysServer/appsettings.json
+StupidGuysServer/appsettings.*.json
 
 # Publish profiles
 *.pubxml

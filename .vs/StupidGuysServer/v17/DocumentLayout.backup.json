@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\services\\lobbiesmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\services\\lobbiesmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\hubs\\matchmakinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\hubs\\matchmakinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\services\\lobbiesmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\services\\lobbiesmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,8 +30,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\appsettings.json",
+              "RelativeDocumentMoniker": "StupidGuysServer\\appsettings.json",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\appsettings.json",
+              "RelativeToolTip": "StupidGuysServer\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-07T01:37:07.188Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -36,47 +53,49 @@
               "RelativeDocumentMoniker": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "RelativeToolTip": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0AAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAwwOQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-29T05:11:08.922Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Lobby.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Models\\Lobby.cs",
               "RelativeDocumentMoniker": "StupidGuysServer\\Models\\Lobby.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Models\\Lobby.cs",
               "RelativeToolTip": "StupidGuysServer\\Models\\Lobby.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAIwDsAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAADwv0UAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T05:10:45.133Z"
+              "WhenOpened": "2025-12-29T05:10:45.133Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "LobbiesManager.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Services\\LobbiesManager.cs",
               "RelativeDocumentMoniker": "StupidGuysServer\\Services\\LobbiesManager.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Services\\LobbiesManager.cs",
               "RelativeToolTip": "StupidGuysServer\\Services\\LobbiesManager.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAgwDgAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAADwvzcAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-29T05:10:41.292Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Program.cs",
               "RelativeDocumentMoniker": "StupidGuysServer\\Program.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Program.cs",
               "RelativeToolTip": "StupidGuysServer\\Program.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAUwCIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T04:30:12.585Z"
+              "WhenOpened": "2025-12-26T04:30:12.585Z",
+              "EditorCaption": ""
             }
           ]
         }
