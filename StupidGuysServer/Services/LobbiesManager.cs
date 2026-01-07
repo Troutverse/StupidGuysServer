@@ -1,4 +1,4 @@
-﻿using StupidGuysServer.Models;
+using StupidGuysServer.Models;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace StupidGuysServer.Models
+namespace StupidGuysServer.Models
 {
     public class Lobby
     {
@@ -11,7 +11,7 @@
         public int GameServerPort { get; set; }
         public bool IsGameServerAllocated { get; set; }
 
-        public string? EdgeGapRequestId { get; set; }
+        public string? PlayFabSessionId { get; set; } // PlayFab SessionId
         public DateTime CreatedAt { get; set; }
 
         public Lobby(int id, int maxPlayers)

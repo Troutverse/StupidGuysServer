@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 public class MatchmakingHub : Hub
 {
     private readonly LobbiesManager _lobbiesManager;
-    private readonly EdgeGapService _edgeGapService;
+    private readonly PlayFabAllocationService _playFabService;
 
-    public MatchmakingHub(LobbiesManager lobbiesManager, EdgeGapService edgeGapService)
+    public MatchmakingHub(LobbiesManager lobbiesManager, PlayFabAllocationService playFabService)
     {
         _lobbiesManager = lobbiesManager;
-        _edgeGapService = edgeGapService;
+        _playFabService = playFabService;
     }
 
     public override async Task OnConnectedAsync()
@@ -34,17 +34,17 @@ public class MatchmakingHub : Hub
         {
             await NotifyLobbyUpdated(lobby);
 
-            // EdgeGap 서버 삭제 (로비가 비었을 때)
-            if (lobby.MemberCount == 0 && !string.IsNullOrEmpty(lobby.EdgeGapRequestId))
+            // PlayFab 서버 종료 (로비가 비었을 때)
+            if (lobby.MemberCount == 0 && !string.IsNullOrEmpty(lobby.PlayFabSessionId))
             {
                 try
                 {
-                    await _edgeGapService.DeleteDeployment(lobby.EdgeGapRequestId);
-                    Console.WriteLine($"[EdgeGap] Server deleted on disconnect: {lobby.EdgeGapRequestId}");
+                    await _playFabService.ShutdownServer(lobby.PlayFabSessionId);
+                    Console.WriteLine($"[PlayFab] Server shutdown requested: {lobby.PlayFabSessionId}");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[EdgeGap] Failed to delete server on disconnect: {ex.Message}");
+                    Console.WriteLine($"[PlayFab] Failed to shutdown server: {ex.Message}");
                 }
             }
         }
@@ -62,70 +62,35 @@ public class MatchmakingHub : Hub
         {
             lobby = _lobbiesManager.CreateLobby(maxPlayers);
             lobby.CreatedAt = DateTime.UtcNow;
+            
+            // 고유 SessionId 생성 (LobbyId + Timestamp)
+            lobby.PlayFabSessionId = $"lobby_{lobby.Id}_{DateTime.UtcNow.Ticks}";
+            
             Console.WriteLine($"Created new lobby {lobby.Id}");
 
-            // ✅ EdgeGap 서버 할당
+            // ✅ PlayFab 서버 할당
             try
             {
-                Console.WriteLine($"[EdgeGap] Requesting server allocation...");
+                Console.WriteLine($"[PlayFab] Requesting server allocation...");
 
-                // 빈 IP 리스트 - EdgeGap이 자동으로 최적 위치 선택
-                var playerIPs = new string[] { };
+                var allocation = await _playFabService.RequestServer(lobby.PlayFabSessionId);
 
-                var deployment = await _edgeGapService.CreateDeployment(playerIPs);
-
-                lobby.EdgeGapRequestId = deployment.request_id;
-                Console.WriteLine($"[EdgeGap] Deployment created: {deployment.request_id}");
-                Console.WriteLine($"[EdgeGap] Waiting for server to be ready...");
-
-                // Status 체크 (최대 30초 대기)
-                int maxRetries = 30;
-                int retryCount = 0;
-                bool isReady = false;
-
-                while (retryCount < maxRetries && !isReady)
-                {
-                    await Task.Delay(2000); // 2초 대기
-                    
-                    var status = await _edgeGapService.GetDeploymentStatus(deployment.request_id);
-                    
-                    Console.WriteLine($"[EdgeGap] Status: {status.current_status} (Attempt {retryCount + 1}/{maxRetries})");
-                    Console.WriteLine($"[EdgeGap] DEBUG - ready: {status.ready}, ports: {status.ports?.Count ?? 0}, public_ip: {status.public_ip}");
-
-                    if (status.current_status == "Status.READY" && status.ports != null && status.ports.Count > 0)
-                    {
-                        lobby.GameServerIP = status.public_ip ?? deployment.public_ip;
-                        
-                        // Dictionary의 첫 번째 포트 가져오기
-                        var firstPort = status.ports.Values.First();
-                        lobby.GameServerPort = firstPort.external;
-                        
-                        isReady = true;
-                        break;
-                    }
-                    
-                    retryCount++;
-                }
-
-                if (!isReady)
-                {
-                    throw new Exception("Server deployment timeout - not ready after 30 seconds");
-                }
-                
+                lobby.GameServerIP = allocation.IPV4Address;
+                lobby.GameServerPort = allocation.Ports[0].Num;
                 lobby.IsGameServerAllocated = true;
 
-                Console.WriteLine($"[EdgeGap] ✅ Server allocated successfully!");
-                Console.WriteLine($"[EdgeGap] Request ID: {deployment.request_id}");
-                Console.WriteLine($"[EdgeGap] IP: {lobby.GameServerIP}");
-                Console.WriteLine($"[EdgeGap] Port: {lobby.GameServerPort}");
+                Console.WriteLine($"[PlayFab] ✅ Server allocated successfully!");
+                Console.WriteLine($"[PlayFab] SessionId: {lobby.PlayFabSessionId}");
+                Console.WriteLine($"[PlayFab] IP: {lobby.GameServerIP}");
+                Console.WriteLine($"[PlayFab] Port: {lobby.GameServerPort}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[EdgeGap] ❌ Failed to allocate server: {ex.Message}");
-                Console.WriteLine($"[EdgeGap] Falling back to local server...");
+                Console.WriteLine($"[PlayFab] ❌ Failed to allocate server: {ex.Message}");
+                Console.WriteLine($"[PlayFab] Falling back to Render.com server...");
 
-                // Fallback: 로컬 서버 사용
-                lobby.GameServerIP = "127.0.0.1";
+                // Fallback: Render.com 서버 사용 (기존 배포된 서버)
+                lobby.GameServerIP = "your-render-server.onrender.com"; // 실제 Render.com 주소로 변경
                 lobby.GameServerPort = 7777;
                 lobby.IsGameServerAllocated = true;
             }
@@ -174,17 +139,17 @@ public class MatchmakingHub : Hub
 
             if (lobby.MemberCount == 0)
             {
-                // ✅ EdgeGap 서버 삭제
-                if (!string.IsNullOrEmpty(lobby.EdgeGapRequestId))
+                // ✅ PlayFab 서버 종료
+                if (!string.IsNullOrEmpty(lobby.PlayFabSessionId))
                 {
                     try
                     {
-                        await _edgeGapService.DeleteDeployment(lobby.EdgeGapRequestId);
-                        Console.WriteLine($"[EdgeGap] Server deleted: {lobby.EdgeGapRequestId}");
+                        await _playFabService.ShutdownServer(lobby.PlayFabSessionId);
+                        Console.WriteLine($"[PlayFab] Server shutdown requested: {lobby.PlayFabSessionId}");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[EdgeGap] Failed to delete server: {ex.Message}");
+                        Console.WriteLine($"[PlayFab] Failed to shutdown server: {ex.Message}");
                     }
                 }
 
@@ -234,7 +199,7 @@ public class MatchmakingHub : Hub
         };
 
         await Clients.Group($"lobby_{lobby.Id}")
-        .SendAsync("LobbyUpdated", status);
+            .SendAsync("LobbyUpdated", status);
     }
 }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using StupidGuysServer.Services;
 
@@ -6,8 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
 builder.Services.AddHttpClient();
-builder.Services.AddSingleton<EdgeGapService>();
 
+// PlayFabAllocationService 등록
+builder.Services.AddSingleton<PlayFabAllocationService>();
 builder.Services.AddSingleton<LobbiesManager>();
 
 builder.Services.AddCors(options =>
