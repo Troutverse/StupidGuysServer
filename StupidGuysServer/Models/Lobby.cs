@@ -11,6 +11,9 @@
         public int GameServerPort { get; set; }
         public bool IsGameServerAllocated { get; set; }
 
+        public string? EdgeGapRequestId { get; set; }
+        public DateTime CreatedAt { get; set; }
+
         public Lobby(int id, int maxPlayers)
         {
             Id = id;

@@ -5,6 +5,8 @@ using StupidGuysServer.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<EdgeGapService>();
 
 builder.Services.AddSingleton<LobbiesManager>();
 

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 public class MatchmakingHub : Hub
 {
     private readonly LobbiesManager _lobbiesManager;
+    private readonly EdgeGapService _edgeGapService;
 
-    public MatchmakingHub(LobbiesManager lobbiesManager)
+    public MatchmakingHub(LobbiesManager lobbiesManager, EdgeGapService edgeGapService)
     {
         _lobbiesManager = lobbiesManager;
+        _edgeGapService = edgeGapService;
     }
 
     public override async Task OnConnectedAsync()
@@ -27,7 +29,24 @@ public class MatchmakingHub : Hub
 
         var lobby = _lobbiesManager.RemovePlayerFromAllLobbies(connectionId);
 
-        if (lobby != null) await NotifyLobbyUpdated(lobby);
+        if (lobby != null)
+        {
+            await NotifyLobbyUpdated(lobby);
+
+            // EdgeGap 서버 삭제 (로비가 비었을 때)
+            if (lobby.MemberCount == 0 && !string.IsNullOrEmpty(lobby.EdgeGapRequestId))
+            {
+                try
+                {
+                    await _edgeGapService.DeleteDeployment(lobby.EdgeGapRequestId);
+                    Console.WriteLine($"[EdgeGap] Server deleted on disconnect: {lobby.EdgeGapRequestId}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[EdgeGap] Failed to delete server on disconnect: {ex.Message}");
+                }
+            }
+        }
 
         await base.OnDisconnectedAsync(exception);
     }
@@ -41,14 +60,49 @@ public class MatchmakingHub : Hub
         if (lobby == null)
         {
             lobby = _lobbiesManager.CreateLobby(maxPlayers);
+            lobby.CreatedAt = DateTime.UtcNow;
             Console.WriteLine($"Created new lobby {lobby.Id}");
-            //lobby.GameServerIP = "92c613f02fc3.pr.edgegap.net";
-            //lobby.GameServerPort = 31145;  
 
-            lobby.GameServerIP = "127.0.0.1";
-            lobby.GameServerPort = 7777;
-            lobby.IsGameServerAllocated = true;
-            Console.WriteLine($"Allocated game server: {lobby.GameServerIP}:{lobby.GameServerPort}");
+            // ✅ EdgeGap 서버 할당
+            try
+            {
+                Console.WriteLine($"[EdgeGap] Requesting server allocation...");
+
+                // TODO: 실제 플레이어 IP 수집 (현재는 임시값)
+                var playerIPs = new[] { "0.0.0.0" };
+
+                var deployment = await _edgeGapService.CreateDeployment(playerIPs);
+
+                lobby.EdgeGapRequestId = deployment.request_id;
+                lobby.GameServerIP = deployment.public_ip;
+
+                // ports 배열에서 첫 번째 포트 사용
+                if (deployment.ports != null && deployment.ports.Length > 0)
+                {
+                    lobby.GameServerPort = deployment.ports[0].external;
+                }
+                else
+                {
+                    throw new Exception("No ports returned from EdgeGap");
+                }
+
+                lobby.IsGameServerAllocated = true;
+
+                Console.WriteLine($"[EdgeGap] ✅ Server allocated successfully!");
+                Console.WriteLine($"[EdgeGap] Request ID: {deployment.request_id}");
+                Console.WriteLine($"[EdgeGap] IP: {lobby.GameServerIP}");
+                Console.WriteLine($"[EdgeGap] Port: {lobby.GameServerPort}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[EdgeGap] ❌ Failed to allocate server: {ex.Message}");
+                Console.WriteLine($"[EdgeGap] Falling back to local server...");
+
+                // Fallback: 로컬 서버 사용
+                lobby.GameServerIP = "127.0.0.1";
+                lobby.GameServerPort = 7777;
+                lobby.IsGameServerAllocated = true;
+            }
         }
 
         if (lobby.AddMember(connectionId, out int remainMemberCount))
@@ -77,7 +131,13 @@ public class MatchmakingHub : Hub
     {
         string connectionId = Context.ConnectionId;
         var lobby = _lobbiesManager.GetLobby(lobbyId);
-        
+
+        if (lobby == null)
+        {
+            Console.WriteLine($"[SignalR] Lobby {lobbyId} not found");
+            return false;
+        }
+
         bool removed = lobby.RemoveMember(connectionId);
 
         if (removed)
@@ -88,6 +148,20 @@ public class MatchmakingHub : Hub
 
             if (lobby.MemberCount == 0)
             {
+                // ✅ EdgeGap 서버 삭제
+                if (!string.IsNullOrEmpty(lobby.EdgeGapRequestId))
+                {
+                    try
+                    {
+                        await _edgeGapService.DeleteDeployment(lobby.EdgeGapRequestId);
+                        Console.WriteLine($"[EdgeGap] Server deleted: {lobby.EdgeGapRequestId}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[EdgeGap] Failed to delete server: {ex.Message}");
+                    }
+                }
+
                 _lobbiesManager.RemoveLobby(lobbyId);
                 Console.WriteLine($"[SignalR] Lobby {lobbyId} is empty and has been removed");
             }
