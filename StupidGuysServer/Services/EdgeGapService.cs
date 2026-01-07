@@ -33,8 +33,15 @@ namespace StupidGuysServer.Services
             {
                 app_name = _appName,
                 version_name = _versionName,
-                ip_list = playerIPs,
-                webhook_url = "" // 선택사항
+                // 빈 IP 리스트 대신 고정 위치 지정
+                location = new
+                {
+                    city = "Seoul",
+                    country = "South Korea",
+                    continent = "Asia",
+                    latitude = 37.5665,
+                    longitude = 126.9780
+                }
             };
 
             Console.WriteLine($"[EdgeGap] Creating deployment for app: {_appName}, version: {_versionName}");
