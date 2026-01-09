@@ -22,6 +22,21 @@ namespace StupidGuysServer.Services
 
         public async Task<ServerAllocationResponse> RequestServer(string sessionId)
         {
+            // EntityToken 먼저 획득
+            if (string.IsNullOrEmpty(PlayFabSettings.staticSettings.DeveloperSecretKey))
+            {
+                throw new Exception("DeveloperSecretKey not set");
+            }
+
+            var authRequest = new PlayFab.AuthenticationModels.GetEntityTokenRequest();
+            var authResult = await PlayFab.PlayFabAuthenticationAPI.GetEntityTokenAsync(authRequest);
+
+            if (authResult.Error != null)
+            {
+                throw new Exception($"Auth failed: {authResult.Error.ErrorMessage}");
+            }
+
+            Console.WriteLine($"[PlayFab] EntityToken acquired");
             Console.WriteLine($"[PlayFab] Requesting server allocation for session: {sessionId}");
 
             var request = new RequestMultiplayerServerRequest
