@@ -86,8 +86,7 @@ public class MatchmakingHub : Hub
                 Console.WriteLine($"[PlayFab] ❌ Failed to allocate server: {ex.Message}");
                 Console.WriteLine($"[PlayFab] Falling back to Render.com server...");
 
-                // Fallback: Render.com 서버 사용 (기존 배포된 서버)
-                lobby.GameServerIP = "your-render-server.onrender.com"; // 실제 Render.com 주소로 변경
+                lobby.GameServerIP = "stupidguysserver.onrender.com";
                 lobby.GameServerPort = 7777;
                 lobby.IsGameServerAllocated = true;
             }
