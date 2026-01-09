@@ -62,10 +62,10 @@ public class MatchmakingHub : Hub
         {
             lobby = _lobbiesManager.CreateLobby(maxPlayers);
             lobby.CreatedAt = DateTime.UtcNow;
-            
+
             // 고유 SessionId 생성 (LobbyId + Timestamp)
-            lobby.PlayFabSessionId = $"lobby_{lobby.Id}_{DateTime.UtcNow.Ticks}";
-            
+            lobby.PlayFabSessionId = Guid.NewGuid().ToString();
+
             Console.WriteLine($"Created new lobby {lobby.Id}");
 
             // ✅ PlayFab 서버 할당
