@@ -37,26 +37,31 @@ namespace StupidGuysServer.Services
             }
 
             Console.WriteLine($"[PlayFab] EntityToken acquired");
+
             Console.WriteLine($"[PlayFab] Requesting server allocation for session: {sessionId}");
+            Console.WriteLine($"[PlayFab] BuildId: {_buildId}");
+            Console.WriteLine($"[PlayFab] TitleId: {_titleId}");
 
             var request = new RequestMultiplayerServerRequest
             {
                 BuildId = _buildId,
                 SessionId = sessionId,
-                PreferredRegions = new System.Collections.Generic.List<string> { "EastUs", "WestUs", "KoreaCentral" }
+                PreferredRegions = new System.Collections.Generic.List<string> { "KoreaCentral" }
             };
+
+            Console.WriteLine($"[PlayFab] Request - BuildId: {request.BuildId}");
+            Console.WriteLine($"[PlayFab] Request - SessionId: {request.SessionId}");
+            Console.WriteLine($"[PlayFab] Request - Regions: {string.Join(", ", request.PreferredRegions)}");
 
             var result = await PlayFabMultiplayerAPI.RequestMultiplayerServerAsync(request);
 
             if (result.Error != null)
             {
+                Console.WriteLine($"[PlayFab] Error Code: {result.Error.Error}");
+                Console.WriteLine($"[PlayFab] Error Message: {result.Error.ErrorMessage}");
+                Console.WriteLine($"[PlayFab] Error Details: {result.Error.ErrorDetails}");
                 throw new Exception($"PlayFab Error: {result.Error.ErrorMessage}");
             }
-
-            Console.WriteLine($"[PlayFab] ✅ Server allocated successfully!");
-            Console.WriteLine($"[PlayFab] SessionId: {result.Result.SessionId}");
-            Console.WriteLine($"[PlayFab] IP: {result.Result.IPV4Address}");
-            Console.WriteLine($"[PlayFab] Port: {result.Result.Ports[0].Num}");
 
             return new ServerAllocationResponse
             {
