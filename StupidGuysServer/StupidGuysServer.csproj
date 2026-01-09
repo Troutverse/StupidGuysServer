@@ -7,5 +7,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+		<PackageReference Include="PlayFabAllSDK" Version="1.205.250718" />
 	</ItemGroup>
 </Project>

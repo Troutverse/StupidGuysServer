@@ -539,6 +539,31 @@
           }
         }
       },
+      "PlayFabAllSDK/1.205.250718": {
+        "type": "package",
+        "dependencies": {
+          "Polly": "7.2.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/PlayFabAllSDK.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/PlayFabAllSDK.dll": {}
+        }
+      },
+      "Polly/7.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Polly.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Polly.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "System.Buffers/4.5.0": {
         "type": "package",
         "compile": {
@@ -1210,6 +1235,43 @@
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "newtonsoft.json.11.0.2.nupkg.sha512",
         "newtonsoft.json.nuspec"
+      ]
+    },
+    "PlayFabAllSDK/1.205.250718": {
+      "sha512": "vx59VJNlqI5SMZ+498/4mWe0UIkbXBn9LP5SKKQ5zojTW+l/e2/2VEVAHU/Tvgi1TDY5mSYNhhAiXmeEbxl8wA==",
+      "type": "package",
+      "path": "playfaballsdk/1.205.250718",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/PlayFabAllSDK.dll",
+        "playfaballsdk.1.205.250718.nupkg.sha512",
+        "playfaballsdk.nuspec"
+      ]
+    },
+    "Polly/7.2.3": {
+      "sha512": "DeCY0OFbNdNxsjntr1gTXHJ5pKUwYzp04Er2LLeN3g6pWhffsGuKVfMBLe1lw7x76HrPkLxKEFxBlpRxS2nDEQ==",
+      "type": "package",
+      "path": "polly/7.2.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Polly.png",
+        "lib/net461/Polly.dll",
+        "lib/net461/Polly.pdb",
+        "lib/net461/Polly.xml",
+        "lib/net472/Polly.dll",
+        "lib/net472/Polly.pdb",
+        "lib/net472/Polly.xml",
+        "lib/netstandard1.1/Polly.dll",
+        "lib/netstandard1.1/Polly.pdb",
+        "lib/netstandard1.1/Polly.xml",
+        "lib/netstandard2.0/Polly.dll",
+        "lib/netstandard2.0/Polly.pdb",
+        "lib/netstandard2.0/Polly.xml",
+        "polly.7.2.3.nupkg.sha512",
+        "polly.nuspec"
       ]
     },
     "System.Buffers/4.5.0": {
@@ -2034,7 +2096,8 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Microsoft.AspNetCore.SignalR >= 1.1.0"
+      "Microsoft.AspNetCore.SignalR >= 1.1.0",
+      "PlayFabAllSDK >= 1.205.250718"
     ]
   },
   "packageFolders": {
@@ -2090,6 +2153,10 @@
           "Microsoft.AspNetCore.SignalR": {
             "target": "Package",
             "version": "[1.1.0, )"
+          },
+          "PlayFabAllSDK": {
+            "target": "Package",
+            "version": "[1.205.250718, )"
           }
         },
         "imports": [

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wayjL44lJSU=",
+  "dgSpecHash": "qZR1byhOBk8=",
   "success": true,
   "projectFilePath": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\StupidGuysServer.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,8 @@
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\playfaballsdk\\1.205.250718\\playfaballsdk.1.205.250718.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\polly\\7.2.3\\polly.7.2.3.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\system.componentmodel.annotations\\4.5.0\\system.componentmodel.annotations.4.5.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",

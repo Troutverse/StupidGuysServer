@@ -1,58 +1,55 @@
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
+using PlayFab;
+using PlayFab.MultiplayerModels;
+using System.Threading.Tasks;
 
 namespace StupidGuysServer.Services
 {
     public class PlayFabAllocationService
     {
-        private readonly HttpClient _httpClient;
         private readonly string _titleId;
         private readonly string _secretKey;
         private readonly string _buildId;
 
-        public PlayFabAllocationService(IHttpClientFactory httpClientFactory, IConfiguration config)
+        public PlayFabAllocationService(IConfiguration config)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            
             _titleId = config["PlayFab:TitleId"] ?? throw new ArgumentNullException("PlayFab:TitleId not configured");
             _secretKey = config["PlayFab:SecretKey"] ?? throw new ArgumentNullException("PlayFab:SecretKey not configured");
             _buildId = config["PlayFab:BuildId"] ?? throw new ArgumentNullException("PlayFab:BuildId not configured");
-            
-            _httpClient.BaseAddress = new Uri($"https://{_titleId}.playfabapi.com/");
-            _httpClient.DefaultRequestHeaders.Add("X-SecretKey", _secretKey);
+
+            PlayFabSettings.staticSettings.TitleId = _titleId;
+            PlayFabSettings.staticSettings.DeveloperSecretKey = _secretKey;
         }
 
         public async Task<ServerAllocationResponse> RequestServer(string sessionId)
         {
-            var request = new
+            Console.WriteLine($"[PlayFab] Requesting server allocation for session: {sessionId}");
+
+            var request = new RequestMultiplayerServerRequest
             {
                 BuildId = _buildId,
                 SessionId = sessionId,
-                PreferredRegions = new[] { "EastUs", "WestUs" } // 원하는 지역 설정
+                PreferredRegions = new System.Collections.Generic.List<string> { "EastUs", "WestUs", "KoreaCentral" }
             };
 
-            Console.WriteLine($"[PlayFab] Requesting server allocation for session: {sessionId}");
+            var result = await PlayFabMultiplayerAPI.RequestMultiplayerServerAsync(request);
 
-            var response = await _httpClient.PostAsJsonAsync("MultiplayerServer/RequestMultiplayerServer", request);
-
-            if (!response.IsSuccessStatusCode)
+            if (result.Error != null)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"PlayFab server allocation failed: {response.StatusCode} - {error}");
+                throw new Exception($"PlayFab Error: {result.Error.ErrorMessage}");
             }
 
-            var result = await response.Content.ReadFromJsonAsync<PlayFabResponse<ServerAllocationResponse>>();
-            
-            if (result?.data == null)
+            Console.WriteLine($"[PlayFab] ✅ Server allocated successfully!");
+            Console.WriteLine($"[PlayFab] SessionId: {result.Result.SessionId}");
+            Console.WriteLine($"[PlayFab] IP: {result.Result.IPV4Address}");
+            Console.WriteLine($"[PlayFab] Port: {result.Result.Ports[0].Num}");
+
+            return new ServerAllocationResponse
             {
-                throw new Exception("PlayFab returned null data");
-            }
-
-            Console.WriteLine($"[PlayFab] Server allocated: {result.data.IPV4Address}:{result.data.Ports[0].Num}");
-            Console.WriteLine($"[PlayFab] SessionId: {result.data.SessionId}");
-
-            return result.data;
+                SessionId = result.Result.SessionId,
+                IPV4Address = result.Result.IPV4Address,
+                Port = result.Result.Ports[0].Num,
+                Region = result.Result.Region
+            };
         }
 
         public async Task<bool> ShutdownServer(string sessionId)
@@ -61,20 +58,21 @@ namespace StupidGuysServer.Services
             {
                 Console.WriteLine($"[PlayFab] Requesting server shutdown for session: {sessionId}");
 
-                var request = new { SessionId = sessionId };
-                var response = await _httpClient.PostAsJsonAsync("MultiplayerServer/ShutdownMultiplayerServer", request);
+                var request = new ShutdownMultiplayerServerRequest
+                {
+                    SessionId = sessionId,
+                };
 
-                if (response.IsSuccessStatusCode)
+                var result = await PlayFabMultiplayerAPI.ShutdownMultiplayerServerAsync(request);
+
+                if (result.Error != null)
                 {
-                    Console.WriteLine($"[PlayFab] Server shutdown requested successfully: {sessionId}");
-                    return true;
-                }
-                else
-                {
-                    var error = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"[PlayFab] Failed to shutdown server: {error}");
+                    Console.WriteLine($"[PlayFab] Failed to shutdown server: {result.Error.ErrorMessage}");
                     return false;
                 }
+
+                Console.WriteLine($"[PlayFab] Server shutdown requested successfully: {sessionId}");
+                return true;
             }
             catch (Exception ex)
             {
@@ -84,43 +82,12 @@ namespace StupidGuysServer.Services
         }
     }
 
-    // Response Models
-    public class PlayFabResponse<T>
-    {
-        [JsonPropertyName("code")]
-        public int code { get; set; }
-
-        [JsonPropertyName("status")]
-        public string status { get; set; } = string.Empty;
-
-        [JsonPropertyName("data")]
-        public T? data { get; set; }
-    }
-
+    // Response Model
     public class ServerAllocationResponse
     {
-        [JsonPropertyName("SessionId")]
         public string SessionId { get; set; } = string.Empty;
-
-        [JsonPropertyName("IPV4Address")]
         public string IPV4Address { get; set; } = string.Empty;
-
-        [JsonPropertyName("Ports")]
-        public ServerPort[] Ports { get; set; } = Array.Empty<ServerPort>();
-
-        [JsonPropertyName("Region")]
+        public int Port { get; set; }
         public string Region { get; set; } = string.Empty;
-    }
-
-    public class ServerPort
-    {
-        [JsonPropertyName("Name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("Num")]
-        public int Num { get; set; }
-
-        [JsonPropertyName("Protocol")]
-        public string Protocol { get; set; } = string.Empty;
     }
 }
