@@ -59,7 +59,14 @@ namespace StupidGuysServer.Services
             {
                 Console.WriteLine($"[PlayFab] Error Code: {result.Error.Error}");
                 Console.WriteLine($"[PlayFab] Error Message: {result.Error.ErrorMessage}");
-                Console.WriteLine($"[PlayFab] Error Details: {result.Error.ErrorDetails}");
+                // ErrorDetails 상세 출력
+                if (result.Error.ErrorDetails != null)
+                {
+                    foreach (var detail in result.Error.ErrorDetails)
+                    {
+                        Console.WriteLine($"[PlayFab] Error Detail - {detail.Key}: {string.Join(", ", detail.Value)}");
+                    }
+                }
                 throw new Exception($"PlayFab Error: {result.Error.ErrorMessage}");
             }
 
