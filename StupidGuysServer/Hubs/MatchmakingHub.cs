@@ -76,7 +76,7 @@ public class MatchmakingHub : Hub
                 var allocation = await _playFabService.RequestServer(lobby.PlayFabSessionId);
 
                 lobby.GameServerIP = allocation.IPV4Address;
-                lobby.GameServerPort = allocation.Ports[0].Num;
+                lobby.GameServerPort = allocation.Port;
                 lobby.IsGameServerAllocated = true;
 
                 Console.WriteLine($"[PlayFab] ✅ Server allocated successfully!");
