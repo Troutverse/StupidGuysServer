@@ -39,7 +39,6 @@ public class MatchmakingHub : Hub
             {
                 try
                 {
-                    await _playFabService.ShutdownServer(lobby.PlayFabSessionId);
                     Console.WriteLine($"[PlayFab] Server shutdown requested: {lobby.PlayFabSessionId}");
                 }
                 catch (Exception ex)
@@ -63,12 +62,10 @@ public class MatchmakingHub : Hub
             lobby = _lobbiesManager.CreateLobby(maxPlayers);
             lobby.CreatedAt = DateTime.UtcNow;
 
-            // 고유 SessionId 생성 (LobbyId + Timestamp)
             lobby.PlayFabSessionId = Guid.NewGuid().ToString();
 
             Console.WriteLine($"Created new lobby {lobby.Id}");
 
-            // ✅ PlayFab 서버 할당
             try
             {
                 Console.WriteLine($"[PlayFab] Requesting server allocation...");
@@ -139,12 +136,10 @@ public class MatchmakingHub : Hub
 
             if (lobby.MemberCount == 0)
             {
-                // ✅ PlayFab 서버 종료
                 if (!string.IsNullOrEmpty(lobby.PlayFabSessionId))
                 {
                     try
                     {
-                        await _playFabService.ShutdownServer(lobby.PlayFabSessionId);
                         Console.WriteLine($"[PlayFab] Server shutdown requested: {lobby.PlayFabSessionId}");
                     }
                     catch (Exception ex)

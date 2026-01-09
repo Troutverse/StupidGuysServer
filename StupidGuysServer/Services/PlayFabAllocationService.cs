@@ -22,7 +22,6 @@ namespace StupidGuysServer.Services
 
         public async Task<ServerAllocationResponse> RequestServer(string sessionId)
         {
-            // EntityToken 먼저 획득
             if (string.IsNullOrEmpty(PlayFabSettings.staticSettings.DeveloperSecretKey))
             {
                 throw new Exception("DeveloperSecretKey not set");
@@ -59,7 +58,6 @@ namespace StupidGuysServer.Services
             {
                 Console.WriteLine($"[PlayFab] Error Code: {result.Error.Error}");
                 Console.WriteLine($"[PlayFab] Error Message: {result.Error.ErrorMessage}");
-                // ErrorDetails 상세 출력
                 if (result.Error.ErrorDetails != null)
                 {
                     foreach (var detail in result.Error.ErrorDetails)
@@ -109,7 +107,6 @@ namespace StupidGuysServer.Services
         }
     }
 
-    // Response Model
     public class ServerAllocationResponse
     {
         public string SessionId { get; set; } = string.Empty;
