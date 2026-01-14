@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\hubs\\matchmakinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\hubs\\matchmakinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\services\\playfaballocationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\services\\playfaballocationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|c:\\users\\pc\\desktop\\stupidguysserver\\stupidguysserver\\hubs\\matchmakinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{395CFCDB-372F-484C-A594-37415FBF0D58}|StupidGuysServer\\StupidGuysServer.csproj|solutionrelative:stupidguysserver\\hubs\\matchmakinghub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,30 +18,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PlayFabAllocationService.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Services\\PlayFabAllocationService.cs",
               "RelativeDocumentMoniker": "StupidGuysServer\\Services\\PlayFabAllocationService.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Services\\PlayFabAllocationService.cs",
               "RelativeToolTip": "StupidGuysServer\\Services\\PlayFabAllocationService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAwGgAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-07T05:46:51.571Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MatchmakingHub.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "RelativeDocumentMoniker": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\StupidGuysServer\\StupidGuysServer\\Hubs\\MatchmakingHub.cs",
               "RelativeToolTip": "StupidGuysServer\\Hubs\\MatchmakingHub.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAkwC4AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAMQAAAAAAAAAAAAAANYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-29T05:11:08.922Z",
               "EditorCaption": ""

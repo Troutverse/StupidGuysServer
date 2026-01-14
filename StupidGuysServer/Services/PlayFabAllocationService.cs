@@ -68,13 +68,51 @@ namespace StupidGuysServer.Services
                 throw new Exception($"PlayFab Error: {result.Error.ErrorMessage}");
             }
 
-            return new ServerAllocationResponse
+            var response = new ServerAllocationResponse
             {
                 SessionId = result.Result.SessionId,
                 IPV4Address = result.Result.IPV4Address,
                 Port = result.Result.Ports[0].Num,
                 Region = result.Result.Region
             };
+
+            await WaitForServerReady(result.Result.SessionId);
+
+            return response;
+        }
+
+        private async Task WaitForServerReady(string sessionId)
+        {
+            int maxAttempts = 30; // 30√ 
+
+            for (int i = 0; i < maxAttempts; i++)
+            {
+                try
+                {
+                    var statusRequest = new GetMultiplayerServerDetailsRequest
+                    {
+                        SessionId = sessionId,
+                    };
+
+                    var statusResult = await PlayFabMultiplayerAPI.GetMultiplayerServerDetailsAsync(statusRequest);
+
+                    if (statusResult.Result.State == "Active")
+                    {
+                        Console.WriteLine($"[PlayFab] Server is Active!");
+                        return;
+                    }
+
+                    Console.WriteLine($"[PlayFab] Server state: {statusResult.Result.State}, waiting...");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[PlayFab] Status check failed: {ex.Message}");
+                }
+
+                await Task.Delay(1000);
+            }
+
+            Console.WriteLine($"[PlayFab] Server ready timeout!");
         }
 
         public async Task<bool> ShutdownServer(string sessionId)
